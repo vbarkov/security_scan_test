@@ -1,0 +1,57 @@
+name: Pull Request
+
+on:
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: eclipse-temurin:21-jdk
+    steps:
+      - name: Getting source code
+        uses: actions/checkout@v3
+      - run: chmod u+x ./mvnw
+      - run: ./mvnw package
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vuln
+          path: ./target
+
+  semgrep:
+    needs: build
+    runs-on: ubuntu-latest
+    container:
+      image: returntocorp/semgrep:latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Create reports directory
+        run: mkdir -p reports
+      
+      - name: Semgrep Security Scan with Autofix
+        run: |
+          semgrep scan \
+            --config "p/java" \
+            --config "p/secrets" \
+            --config "p/owasp-top-ten" \
+            --output reports/semgrep-results.sarif \
+            --sarif || true
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: reports/semgrep-results.sarif
+
+      - name: Upload Semgrep Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-results
+          path: reports/semgrep-results.sarif
+          retention-days: 14
