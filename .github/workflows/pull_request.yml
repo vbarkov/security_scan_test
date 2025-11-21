@@ -74,7 +74,7 @@ jobs:
           -DsuppressionFile=suppression.xml || true
 
       - name: Upload Dependency Check Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dependency-check-results
           path: reports/dependency-check-report.html
