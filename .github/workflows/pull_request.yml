@@ -62,7 +62,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Download WAR
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: vuln
           path: target/
@@ -92,14 +92,14 @@ jobs:
 
       - name: Upload ZAP Results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: zap-results
           path: |
             zap-*
             *.html
           retention-days: 5
-          
+
   #dependency_check:
   #  needs: build
   #  runs-on: ubuntu-latest
