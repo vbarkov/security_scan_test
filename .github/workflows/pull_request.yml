@@ -58,6 +58,7 @@ jobs:
   zap_scan:
     needs: build
     runs-on: ubuntu-latest
+    container: eclipse-temurin:21-jdk
     steps:
       - uses: actions/checkout@v3
 
