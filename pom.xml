@@ -68,11 +68,11 @@
 
     <build>
         <plugins>
-            <plugin>
+            <dependency>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
-                <version>8.6.1</version>
-            </plugin>
+                <version>12.1.9</version>
+            </dependency>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
