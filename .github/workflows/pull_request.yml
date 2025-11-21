@@ -66,9 +66,11 @@ jobs:
       - name: Create reports directory
         run: mkdir -p reports
 
+      - run: chmod u+x ./mvnw
+
       - name: Run OWASP Dependency Check
         run: |
-          mvn org.owasp:dependency-check-maven:check \
+          ./mvnw org.owasp:dependency-check-maven:check \
           -Dformat=HTML \
           -DoutputDirectory=reports \
           -DsuppressionFile=suppression.xml || true
