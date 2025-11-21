@@ -74,11 +74,11 @@ jobs:
       - name: Wait for application to start
         run: sleep 30
 
-      - name: Prepare ZAP Environment
-        run: |
-          sudo mkdir -p ./zap/wrk
-          sudo chown -R $USER:$USER ./zap
-          sudo chmod -R 755 ./zap
+      #- name: Prepare ZAP Environment
+      #  run: |
+      #    mkdir -p ./zap/wrk
+      #    chown -R $USER:$USER ./zap
+      #    chmod -R 755 ./zap
 
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.9.0
