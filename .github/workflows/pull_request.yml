@@ -36,25 +36,19 @@ jobs:
         run: mkdir -p reports
       
       - name: Semgrep Security Scan with Autofix
-        run: |
-          semgrep scan \
-            --config "p/java" \
-            --config "p/secrets" \
-            --config "p/owasp-top-ten" \
-            --output reports/semgrep-results.sarif \
-            --sarif || true
+        run: >
+          semgrep scan 
+            --config auto
+            --output reports/semgrep-results.sarif
+            --sarif
+            .
+            || true
 
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: reports/semgrep-results.sarif
 
-      - name: Upload Semgrep Results
-        uses: actions/upload-artifact@v4
-        with:
-          name: semgrep-results
-          path: reports/semgrep-results.sarif
-          retention-days: 14
   zap_scan:
     needs: build
     runs-on: ubuntu-latest
